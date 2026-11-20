@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#141416">
+  <title>Мафия · Практика</title>
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a href="/" class="brand" data-page="home">
+        <img src="/icon.svg" width="40" height="40" alt="">
+        <span>Мафия <small>Практика</small></span>
+      </a>
+      <nav class="nav" aria-label="Разделы тренажёра">
+        <button type="button" data-page="home" aria-current="page">Тренировка</button>
+        <button type="button" data-page="glossary">Справочник</button>
+        <button type="button" data-page="library">Моя база</button>
+        <button type="button" data-page="sources">Источники</button>
+      </nav>
+    </div>
+  </header>
+  <div id="notice" class="shell notice" role="alert" hidden></div>
+  <main id="screen" class="shell" aria-busy="true">
+    <p role="status">Загружаем тренажёр…</p>
+    <noscript>Включи JavaScript, чтобы запустить тренировку.</noscript>
+  </main>
+
+  <template id="home-template">
+    <div class="home-intro">
+      <h1>Тренировка по мафии</h1>
+      <p class="muted">Жесты, правила Школы 21 и игровые ситуации. Выбери темы и потренируйся в своём темпе.</p>
+    </div>
+    <div class="home-grid">
+      <div class="stack">
+        <fieldset>
+          <legend>Сложность</legend>
+          <div id="levels" class="levels"></div>
+        </fieldset>
+        <section aria-labelledby="topics-title">
+          <div class="section-head">
+            <h2 id="topics-title">Темы</h2>
+            <button type="button" id="toggle-topics" class="button quiet compact"></button>
+          </div>
+          <div id="topics" class="topic-grid"></div>
+        </section>
+        <div id="home-actions" class="actions">
+          <button type="button" class="button" id="add-question">Добавить свой вопрос</button>
+        </div>
+        <div id="home-undo"></div>
+      </div>
+      <aside class="panel start-panel" aria-label="Настройки тренировки">
+        <h2>Сессия</h2>
+        <div class="session-settings">
+          <label class="field">
+            Вопросов
+            <select id="question-count">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="0">Все</option>
+            </select>
+          </label>
+          <p id="availability" class="muted" aria-live="polite"></p>
+        </div>
+        <button type="button" class="button primary" id="start">Начать тренировку</button>
+      </aside>
+    </div>
+  </template>
+
+  <template id="editor-template">
+    <h1>Новый вопрос</h1>
+    <form id="editor" class="panel stack">
+      <div class="field-grid">
+        <label class="field">Сложность <select name="level"></select></label>
+        <label class="field">Формат
+          <select name="kind">
+            <option value="choice">Тест с вариантами</option>
+            <option value="short">Короткий ответ</option>
+            <option value="review">Разбор ситуации</option>
+          </select>
+        </label>
+      </div>
+      <fieldset>
+        <legend>Темы</legend>
+        <div id="editor-topics" class="topic-grid"></div>
+      </fieldset>
+      <label class="field">Вопрос
+        <textarea name="prompt" rows="3" maxlength="12000" required></textarea>
+      </label>
+      <label class="field">Правильный ответ или эталон разбора
+        <textarea name="answer" rows="2" maxlength="12000" required></textarea>
+      </label>
+      <label class="field" id="options-field">Четыре варианта теста
+        <span class="muted field-help" id="options-help">Пиши по одному на строке. Один из вариантов должен точно совпадать с правильным ответом.</span>
+        <textarea name="options" rows="4" maxlength="12000" aria-describedby="options-help"></textarea>
+      </label>
+      <label class="field" id="aliases-field">Синонимы допустимого ответа
+        <span class="muted field-help" id="aliases-help">Раздели варианты знаком |, например «шериф | комиссар».</span>
+        <input name="aliases" type="text" maxlength="12000" aria-describedby="aliases-help">
+      </label>
+      <label class="checkline" id="numeric-field">
+        <input name="numeric_set" type="checkbox"> Ответ — набор номеров, порядок не важен
+      </label>
+      <label class="field">Объяснение
+        <textarea name="explanation" rows="4" maxlength="12000" required></textarea>
+      </label>
+      <label class="field">Источник <input name="source" type="text" maxlength="12000"></label>
+      <label class="field">Изображение или GIF
+        <input name="image" type="file" accept="image/png,image/jpeg,image/gif,image/webp">
+      </label>
+      <div class="actions">
+        <button type="submit" class="button primary">Сохранить вопрос</button>
+        <button type="button" class="button" id="cancel-editor">Отмена</button>
+      </div>
+    </form>
+  </template>
+</body>
+</html>
